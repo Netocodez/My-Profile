@@ -3,7 +3,13 @@ document.addEventListener('DOMContentLoaded', function() {
     //const roles = ["Frontend Developer", "React Engineer", "UI Specialist", "Web Designer"];
     //let roleIndex = 0;
 
-    const roles = ["Web Developer", "UI/UX Designer", "Backend Engineer", "Tech Lead"];
+    const roles = [
+        "Full Stack Developer",
+        "Data Analytics Specialist",
+        "Health Informatics & M&E Specialist",
+        "Tech Lead"
+    ];
+
     let roleIndex = 0;
     let charIndex = 0;
     let isDeleting = false;

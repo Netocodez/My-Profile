@@ -568,3 +568,23 @@ h2.section-title::after {
         grid-template-columns: 1fr;
     }
 }
+
+/* Force navbar button to match hero .btn-primary exactly */
+.nav-links .btn.btn-primary {
+    background-color: var(--color-accent);        /* same button color */
+    color: var(--color-dark-navy);                /* same text color */
+    padding: 12px 24px;                           /* match hero button */
+    border-radius: 6px;
+    font-weight: 600;
+    display: inline-block;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+/* Exact same hover effect as hero buttons */
+.nav-links .btn.btn-primary:hover {
+    background-color: var(--color-accent-light);  /* same hover color */
+    color: var(--color-accent);                /* same hover text */
+    transform: translateY(-3px);                  /* same lift effect */
+    box-shadow: 0 8px 20px rgba(0, 255, 200, 0.25); /* optional glow if used */
+}
