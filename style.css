@@ -1,13 +1,38 @@
 /* --- 1. Global Reset & Variables --- */
 :root {
-    --color-dark-navy: #0A192F; /* Deep Background */
-    --color-light-navy: #112240; /* Card/Section Background */
-    --color-accent: #64FFDA; /* Cyan Accent/Highlight */
-    --color-lightest-slate: #CCD6F6; /* Primary Text */
-    --color-slate: #8892B0; /* Secondary Text/Subheadings */
+    /* DEFAULT MODE: DARK MODE */
+    --bg-primary: #0A192F; /* Deep Background */
+    --bg-secondary: #112240; /* Card/Section Background */
+    --text-primary: #CCD6F6; /* Primary Text (Lightest Slate) */
+    --text-secondary: #8892B0; /* Secondary Text (Slate) */
+    --accent: #64FFDA; /* Cyan Accent/Highlight */
+    --shadow-color: rgba(2, 12, 27, 0.8);
+
+    /* Derived Variables for Consistency & Effects */
+    --color-accent-shadow: rgba(100, 255, 218, 0.15);
+    --color-card-bg: var(--bg-secondary);
+    --scrollbar-track-color: var(--bg-secondary);
+    --scrollbar-thumb-color: var(--text-secondary);
+
+    /* Typography */
     --font-sans: 'Inter', sans-serif;
     --font-mono: 'Roboto Mono', monospace;
     --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+/* --- LIGHT MODE OVERRIDES --- */
+.light-mode {
+    --bg-primary: #F0F0F0; /* Light Background */
+    --bg-secondary: #FFFFFF; /* White Card/Section Background */
+    --text-primary: #1F2937; /* Dark Grey Text */
+    --text-secondary: #4B5563; /* Medium Grey Text */
+    --accent: #10B981; /* Green Accent (A bit softer for light mode) */
+    --shadow-color: rgba(17, 34, 64, 0.15); /* Lighter shadow */
+
+    /* Derived Overrides */
+    --color-accent-shadow: rgba(16, 185, 129, 0.15);
+    --scrollbar-track-color: #E5E7EB;
+    --scrollbar-thumb-color: #9CA3AF;
 }
 
 * {
@@ -22,10 +47,44 @@ html {
 
 body {
     font-family: var(--font-sans);
-    background-color: var(--color-dark-navy);
-    color: var(--color-slate);
+    /* Use new variables */
+    background-color: var(--bg-primary); 
+    color: var(--text-secondary); 
     line-height: 1.6;
+    transition: background-color 0.5s ease, color 0.5s ease; /* Smooth mode transition */
 }
+
+/* ENHANCEMENT: Custom Scrollbar Styling (Webkit only) */
+body::-webkit-scrollbar {
+    width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-color);
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb-color);
+    border-radius: 4px;
+    border: 1px solid var(--bg-secondary); 
+}
+
+/* ENHANCEMENT: Custom Text Selection Color */
+::selection {
+    background-color: var(--accent);
+    color: var(--bg-primary);
+}
+
+/* ENHANCEMENT: Focus State Accessibility */
+a:focus,
+.btn:focus,
+.skill-tag:focus,
+input:focus,
+textarea:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
 
 .container {
     width: 90%;
@@ -35,23 +94,23 @@ body {
 }
 
 a {
-    color: var(--color-accent);
+    color: var(--accent);
     text-decoration: none;
     transition: var(--transition);
 }
 
 a:hover {
-    color: var(--color-accent);
-    text-shadow: 0 0 5px rgba(100, 255, 218, 0.5);
+    color: var(--accent);
+    text-shadow: 0 0 5px var(--color-accent-shadow);
 }
 
-/* --- 2. Typography and Headings --- */
+/* --- 2. Typography and Headings & Animations --- */
 h1, h2, h3 {
-    color: var(--color-lightest-slate);
+    color: var(--text-primary); /* Use primary text color */
     font-weight: 600;
 }
 
-/* --- NEW ADDITION: Soft Fade-in Animation for All Sections --- */
+/* Soft Fade-in Animation for All Sections */
 .section-reveal {
     opacity: 0;
     transform: translateY(30px);
@@ -69,7 +128,6 @@ h2.section-title {
     font-size: 2.5rem;
     margin-bottom: 20px;
     position: relative;
-    /* Underline effect */
     display: inline-block;
 }
 
@@ -78,21 +136,20 @@ h2.section-title::after {
     display: block;
     width: 60px;
     height: 3px;
-    background-color: var(--color-accent);
+    background-color: var(--accent);
     margin-top: 10px;
 }
 
-/* --- NEW ADDITION: Section Title Glow Micro Effect --- */
+/* Section Title Glow Micro Effect */
 .section-title {
     transition: text-shadow .4s ease;
 }
 
 .section-title:hover {
-    text-shadow: 0 0 10px rgba(100, 255, 218, 0.4);
+    text-shadow: 0 0 10px var(--color-accent-shadow);
 }
 
-
-/* --- NEW ADDITION: Impact Number Count Animation --- */
+/* Impact Number Count Animation */
 .stat-card span {
     opacity: 0;
     animation: countUp 1.2s ease forwards;
@@ -104,7 +161,7 @@ h2.section-title::after {
 }
 
 .highlight {
-    color: var(--color-accent);
+    color: var(--accent);
 }
 
 /* --- 3. Buttons (Call to Actions) --- */
@@ -120,39 +177,40 @@ h2.section-title::after {
 }
 
 .btn-primary {
-    background-color: var(--color-accent);
-    color: var(--color-dark-navy);
-    border: 1px solid var(--color-accent);
+    background-color: var(--accent);
+    color: var(--bg-primary); /* Use primary background for text */
+    border: 1px solid var(--accent);
 }
 
 .btn-primary:hover {
     background-color: transparent;
-    color: var(--color-accent);
+    color: var(--accent);
 }
 
 .btn-secondary {
     background-color: transparent;
-    color: var(--color-accent);
-    border: 1px solid var(--color-accent);
+    color: var(--accent);
+    border: 1px solid var(--accent);
 }
 
 .btn-secondary:hover {
-    background-color: rgba(100, 255, 218, 0.1);
+    background-color: var(--color-accent-shadow);
 }
 
 .btn-secondary-outline {
     background-color: transparent;
-    color: var(--color-accent);
-    border: 1px solid var(--color-accent);
+    color: var(--accent);
+    border: 1px solid var(--accent);
     padding: 10px 18px;
 }
 
-/* --- NEW ADDITION: CTA Button Enhancement --- */
+/* CTA Button Enhancement (Shine Effect) */
 .btn-primary,
 .btn-secondary,
 .btn-secondary-outline {
     position: relative;
     overflow: hidden;
+    z-index: 1;
 }
 
 .btn-primary::after,
@@ -164,8 +222,9 @@ h2.section-title::after {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: rgba(100, 255, 218, 0.15);
+    background: var(--color-accent-shadow);
     transition: .4s;
+    z-index: -1;
 }
 
 .btn-primary:hover::after,
@@ -174,14 +233,130 @@ h2.section-title::after {
     left: 0;
 }
 
+/* --- Specialties Section Styling (Refined using Variables) --- */
+.specialties-section {
+    padding: 40px 0;
+    text-align: center;
+    background-color: var(--bg-primary);
+}
+
+.specialties-section .section-title {
+    margin-bottom: 40px;
+    color: var(--text-primary);
+}
+
+.specialties-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.specialty-item {
+    background: var(--bg-secondary);
+    border: 1px solid var(--bg-secondary);
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 10px var(--shadow-color); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.specialty-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px var(--color-accent-shadow);
+}
+
+.specialty-item i {
+    font-size: 2.5rem;
+    color: var(--accent);
+    margin-bottom: 15px;
+    display: block;
+}
+
+.specialty-item h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.specialty-item p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+/* --- MODE SWITCH STYLING (NEW) --- */
+.mode-switch {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 45px;
+    height: 25px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--text-secondary);
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 4px;
+    bottom: 4px;
+    background-color: var(--bg-primary);
+    transition: 0.4s;
+    border-radius: 50%;
+    /* Dark mode: Moon/Star icon */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2364FFDA"><path d="M12 3a9 9 0 0 0 9 9 9 9 0 0 1-9-9z"/></svg>');
+    background-size: 80%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+input:checked + .slider {
+    background-color: var(--accent);
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+    /* Light mode: Sun icon */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FFFFFF"><path d="M12 3a9 9 0 0 0 9 9 9 9 0 0 1-9-9z"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23FBBF24"><path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75zm0 16.5a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0v-2.25a.75.75 0 0 1 .75-.75zM2.25 12a.75.75 0 0 1 .75-.75h2.25a.75.75 0 0 1 0 1.5H3a.75.75 0 0 1-.75-.75zm16.5 0a.75.75 0 0 1 .75-.75h2.25a.75.75 0 0 1 0 1.5h-2.25a.75.75 0 0 1-.75-.75zM6.34 6.34a.75.75 0 0 1 1.06 0l1.59 1.59a.75.75 0 0 1-1.06 1.06L6.34 7.4a.75.75 0 0 1 0-1.06zm10.32 10.32a.75.75 0 0 1 0-1.06l1.59-1.59a.75.75 0 0 1 1.06 1.06l-1.59 1.59a.75.75 0 0 1-1.06 0zM16.32 7.4a.75.75 0 0 1 1.06 0l1.59 1.59a.75.75 0 0 1-1.06 1.06l-1.59-1.59a.75.75 0 0 1 0-1.06zM6.34 16.32l1.59 1.59a.75.75 0 0 1-1.06 1.06l-1.59-1.59a.75.75 0 0 1 1.06-1.06z"/></svg>');
+    background-size: 100%;
+}
+/* --- END MODE SWITCH STYLING --- */
+
+
 /* --- 4. Navigation (Header) --- */
 .header {
-    background-color: var(--color-dark-navy);
+    background-color: var(--bg-primary);
     position: fixed;
     width: 100%;
     z-index: 1000;
-    box-shadow: 0 5px 10px rgba(2, 12, 27, 0.8);
+    box-shadow: 0 5px 10px var(--shadow-color);
     transition: var(--transition);
+    border-bottom: 1px solid var(--bg-secondary);
 }
 
 .nav-bar {
@@ -191,20 +366,27 @@ h2.section-title::after {
     padding: 20px 0;
 }
 
+/* NEW: Logo and Mode Switch Layout */
+.nav-left {
+    display: flex;
+    align-items: center;
+}
+
 .logo {
     font-size: 1.8rem;
     font-family: var(--font-mono);
-    color: var(--color-accent);
+    color: var(--accent);
     font-weight: 700;
 }
 
 .logo-dot {
-    color: var(--color-lightest-slate);
+    color: var(--text-primary);
 }
 
 .nav-links {
     list-style: none;
     display: flex;
+    align-items: center;
 }
 
 .nav-links li {
@@ -212,17 +394,17 @@ h2.section-title::after {
 }
 
 .nav-links a {
-    color: var(--color-lightest-slate);
+    color: var(--text-primary);
     font-family: var(--font-mono);
     font-size: 0.9rem;
     padding: 8px 0;
 }
 
 .nav-links a:hover {
-    color: var(--color-accent);
+    color: var(--accent);
 }
 
-/* --- NEW ADDITION: Navbar Link Smooth Hover Underline --- */
+/* Navbar Link Smooth Hover Underline */
 .nav-links a {
     position: relative;
 }
@@ -234,7 +416,7 @@ h2.section-title::after {
     left: 0;
     width: 0%;
     height: 2px;
-    background-color: var(--color-accent);
+    background-color: var(--accent);
     transition: width .3s ease;
 }
 
@@ -243,7 +425,8 @@ h2.section-title::after {
 }
 
 .menu-toggle {
-    display: none; /* Hide on desktop */
+    display: none;
+    transition: transform 0.3s ease;
 }
 
 /* --- 5. Hero Section --- */
@@ -259,10 +442,19 @@ h2.section-title::after {
     max-width: 600px;
 }
 
-/* --- NEW ADDITION: Hero Text Smooth Entrance --- */
+/* Hero Text Smooth Entrance */
 .hero-content {
     animation: slideInLeft 1.2s ease-out forwards;
     opacity: 0;
+}
+
+.hero-content .greeting {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    animation-delay: 0.2s;
 }
 
 @keyframes slideInLeft {
@@ -271,20 +463,20 @@ h2.section-title::after {
 }
 
 .hero-content h1 {
-    font-size: 4rem;
+    font-size: clamp(3rem, 7vw, 3.5rem); 
     line-height: 1;
     margin: 10px 0;
 }
 
 .hero-content h2 {
-    font-size: 2.5rem;
-    color: var(--color-accent);
+    font-size: clamp(1.5rem, 4vw, 2.5rem); 
+    color: var(--accent);
     margin-bottom: 25px;
 }
 
 .dynamic-role #role-text {
     font-weight: 700;
-    border-bottom: 3px solid var(--color-accent); /* Dynamic underline */
+    border-bottom: 3px solid var(--accent);
 }
 
 .hero-actions {
@@ -296,11 +488,11 @@ h2.section-title::after {
 .hero-image {
     width: 300px;
     height: 300px;
-    border: 2px solid var(--color-accent);
+    border: 2px solid var(--accent);
     border-radius: 50%;
     overflow: hidden;
     position: relative;
-    box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
+    box-shadow: 0 0 20px var(--color-accent-shadow);
     transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
@@ -308,22 +500,22 @@ h2.section-title::after {
 .hero-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;       /* Fill the circle without distortion */
-    object-position: center; /* Keep image centered */
+    object-fit: cover;
+    object-position: center;
     display: block;
     transition: transform 0.5s ease;
 }
 
 /* Hover effect */
 .hero-image:hover img {
-    transform: scale(1.1);  /* Slight zoom on hover */
+    transform: scale(1.1);
 }
 
 .hero-image:hover {
-    box-shadow: 0 0 40px rgba(100, 255, 218, 0.6); /* Glow effect on hover */
+    box-shadow: 0 0 40px var(--color-accent-shadow);
 }
 
-/* --- NEW ADDITION: Floating Animation for Profile Image --- */
+/* Floating Animation for Profile Image */
 .hero-image {
     animation: floatImage 4s ease-in-out infinite;
 }
@@ -336,7 +528,7 @@ h2.section-title::after {
 
 /* --- 6. About Section --- */
 .about-section {
-    background-color: var(--color-light-navy);
+    background-color: var(--bg-secondary);
     padding: 80px 20px;
 }
 
@@ -355,38 +547,143 @@ h2.section-title::after {
     margin-bottom: 15px;
 }
 
+/* --- 6. About Section --- */
+.about-section {
+    background-color: var(--bg-secondary);
+    padding: 80px 20px;
+}
+
+/* TOP ROW: Text and General Stats */
+.about-flex {
+    display: flex;
+    gap: 50px;
+    align-items: flex-start;
+}
+
+.about-text {
+    flex: 2; /* Takes 2/3 space on desktop */
+    font-size: 1.1rem;
+}
+
+.about-text p {
+    margin-bottom: 15px;
+}
+
+/* General Stats (Right Column) */
 .about-stats {
-    flex: 1;
+    flex: 1; /* Takes 1/3 space on desktop */
     display: grid;
-    grid-template-columns: 1fr;
+    /* FIX: Desktop layout for 2 cards side-by-side (1fr 1fr) */
+    grid-template-columns: 1fr; 
     gap: 20px;
 }
 
+/* NEW: Key Impact Section (Full width bottom row) */
+.key-impact-row {
+    margin-top: 50px;
+    width: 100%;
+}
+
+.key-impact-row h3 {
+    font-size: 1.5rem;
+    color: var(--accent);
+    text-align: center;
+    border-bottom: 2px solid var(--color-accent-shadow);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* NEW: Grid for the 4 Impact Cards (Horizontal stacking on desktop) */
+.impact-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px;
+}
+
+/* --- Stat Card Styling (Applies to all cards) --- */
 .stat-card {
-    background-color: var(--color-dark-navy);
+    background-color: var(--bg-primary);
     padding: 20px;
     border-radius: 5px;
     text-align: center;
-    border-top: 3px solid var(--color-accent);
+    border-top: 3px solid var(--accent);
+    position: relative; 
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+}
+
+/* Accent color flash on hover (No change) */
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--accent);
+    transform: translateX(-100%);
+    transition: transform 0.4s ease-out;
+}
+
+.stat-card:hover::before {
+    transform: translateX(0);
 }
 
 .stat-card span {
     display: block;
     font-size: 2rem;
     font-weight: 700;
-    color: var(--color-accent);
+    color: var(--accent);
 }
 
 .stat-card p {
     margin: 0;
     font-size: 0.9rem;
-    color: var(--color-lightest-slate);
+    color: var(--text-primary);
+}
+
+
+/* --- Responsive Adjustments (Add to your Media Queries section) --- */
+@media (max-width: 992px) {
+    /* 1. Collapse the main flex container (Text on top of General Stats) */
+    .about-flex {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    /* 2. General Stats: Maintain 2 columns for mid-sized screens */
+    .about-stats {
+        flex: none; 
+        width: 100%;
+        grid-template-columns: 1fr 1fr; 
+    }
+    
+    /* 3. Key Impact Cards collapse from 4 to 2 columns on tablets */
+    .impact-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    /* No major changes needed here, relies on 992px and 576px */
+}
+
+@media (max-width: 576px) {
+    /* 1. General Stats: Collapse from 2 columns to 1 column on mobile */
+    .about-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    /* 2. Key Impact Cards: Collapse from 2 columns to 1 column on mobile */
+    .impact-cards-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 
 /* --- 7. Skills Section --- */
 .skills-section {
-    background-color: var(--color-dark-navy);
+    background-color: var(--bg-primary);
 }
 
 .skill-grid {
@@ -397,9 +694,9 @@ h2.section-title::after {
 }
 
 .skill-category h3 {
-    color: var(--color-accent);
+    color: var(--accent);
     margin-bottom: 15px;
-    border-bottom: 1px dashed var(--color-slate);
+    border-bottom: 1px dashed var(--text-secondary);
     padding-bottom: 5px;
     font-size: 1.3rem;
 }
@@ -411,26 +708,26 @@ h2.section-title::after {
 }
 
 .skill-tag {
-    background-color: var(--color-light-navy);
-    color: var(--color-lightest-slate);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
     padding: 8px 15px;
     border-radius: 20px;
     font-size: 0.9rem;
     font-family: var(--font-mono);
-    border: 1px solid var(--color-slate);
+    border: 1px solid var(--text-secondary);
     transition: var(--transition);
 }
 
 .skill-tag:hover {
-    background-color: var(--color-accent);
-    color: var(--color-dark-navy);
-    border-color: var(--color-accent);
+    background-color: var(--accent);
+    color: var(--bg-primary);
+    border-color: var(--accent);
     cursor: default;
 }
 
 /* --- 8. Projects Section --- */
 .projects-section {
-    background-color: var(--color-light-navy);
+    background-color: var(--bg-secondary);
     padding: 50px 20px;
 }
 
@@ -442,24 +739,25 @@ h2.section-title::after {
 }
 
 .project-card {
-    background-color: var(--color-dark-navy);
+    background-color: var(--bg-primary);
     padding: 25px;
     border-radius: 8px;
-    box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+    box-shadow: 0 10px 30px -15px var(--shadow-color);
     transition: var(--transition);
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
+/* Animated Hover Glow for Project Cards */
 .project-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 20px 40px -15px rgba(2, 12, 27, 0.9);
+    box-shadow: 0 25px 50px -12px var(--color-accent-shadow);
 }
 
 .project-image {
     height: 200px;
-    background-color: var(--color-slate);
+    background-color: var(--text-secondary);
     margin-bottom: 15px;
     border-radius: 4px;
     overflow: hidden;
@@ -472,7 +770,7 @@ h2.section-title::after {
     display: block;
 }
 
-/* --- NEW ADDITION: Project Image Zoom Micro-Effect --- */
+/* Project Image Zoom Micro-Effect */
 .project-image img {
     transition: transform .35s ease;
 }
@@ -481,24 +779,15 @@ h2.section-title::after {
     transform: scale(1.05);
 }
 
-/* --- NEW ADDITION: Animated Hover Glow for Project Cards --- */
-.project-card {
-    transition: transform .3s ease, box-shadow .3s ease;
-}
-
-.project-card:hover {
-    box-shadow: 0 25px 50px -12px rgba(100, 255, 218, 0.25);
-}
-
 .project-title {
-    color: var(--color-lightest-slate);
+    color: var(--text-primary);
     margin-bottom: 10px;
     font-size: 1.4rem;
 }
 
 .project-description {
     margin-bottom: 15px;
-    flex-grow: 1; /* Pushes links to the bottom */
+    flex-grow: 1;
 }
 
 .project-tech {
@@ -511,18 +800,18 @@ h2.section-title::after {
 
 .tech-used {
     font-size: 0.8rem;
-    color: var(--color-accent);
+    color: var(--accent);
     font-family: var(--font-mono);
 }
 
 .project-links a {
     margin-right: 15px;
     font-size: 1.1rem;
-    color: var(--color-slate);
+    color: var(--text-secondary);
 }
 
 .project-links a:hover {
-    color: var(--color-accent);
+    color: var(--accent);
 }
 
 .more-projects {
@@ -554,7 +843,7 @@ h2.section-title::after {
 .form-group label {
     display: block;
     margin-bottom: 5px;
-    color: var(--color-lightest-slate);
+    color: var(--text-primary);
     font-size: 1.1rem;
 }
 
@@ -563,11 +852,20 @@ h2.section-title::after {
 .contact-form textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid var(--color-slate);
-    background-color: var(--color-dark-navy);
-    color: var(--color-lightest-slate);
+    border: 1px solid var(--bg-secondary);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
     border-radius: 4px;
     font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Focus glow for inputs */
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--color-accent-shadow); 
+    outline: none;
 }
 
 .contact-form textarea {
@@ -586,13 +884,14 @@ h2.section-title::after {
 
 .social-links a {
     margin: 0 15px;
-    color: var(--color-slate);
+    color: var(--text-secondary);
     font-size: 2rem;
+    transition: var(--transition);
 }
 
 .social-links a:hover {
-    color: var(--color-accent);
-    transform: translateY(-2px);
+    color: var(--accent);
+    transform: translateY(-5px) scale(1.1); 
 }
 
 
@@ -600,7 +899,7 @@ h2.section-title::after {
 .footer {
     padding: 20px 0;
     text-align: center;
-    border-top: 1px solid var(--color-light-navy);
+    border-top: 1px solid var(--bg-secondary);
     font-size: 0.9rem;
 }
 
@@ -650,15 +949,15 @@ h2.section-title::after {
     }
 
     .nav-links {
-        display: none; /* Hidden by default for mobile */
+        display: none;
         flex-direction: column;
         position: absolute;
         top: 60px;
         right: 0;
-        background-color: var(--color-light-navy);
+        background-color: var(--bg-secondary);
         width: 70%;
         padding: 20px;
-        box-shadow: -5px 5px 10px rgba(2, 12, 27, 0.9);
+        box-shadow: -5px 5px 10px var(--shadow-color);
         height: 100vh;
         z-index: 999;
     }
@@ -674,8 +973,12 @@ h2.section-title::after {
     .menu-toggle {
         display: block;
         font-size: 1.5rem;
-        color: var(--color-accent);
+        color: var(--accent);
         cursor: pointer;
+    }
+    
+    .nav-links.active + .menu-toggle {
+        transform: rotate(90deg);
     }
 
     .hero-content h1 {
@@ -689,24 +992,29 @@ h2.section-title::after {
     .about-stats {
         grid-template-columns: 1fr;
     }
+    
+    .mode-switch {
+        margin-left: 0;
+        margin-top: 20px; /* Moves switch down in mobile menu list */
+    }
 }
 
 /* Force navbar button to match hero .btn-primary exactly */
 .nav-links .btn.btn-primary {
-    background-color: var(--color-accent);        /* same button color */
-    color: var(--color-dark-navy);                /* same text color */
-    padding: 12px 24px;                           /* match hero button */
+    background-color: var(--accent);
+    color: var(--bg-primary);
+    padding: 12px 24px;
     border-radius: 6px;
     font-weight: 600;
     display: inline-block;
     transition: all 0.3s ease;
-    border: none;
+    border: 1px solid var(--accent);
 }
 
 /* Exact same hover effect as hero buttons */
 .nav-links .btn.btn-primary:hover {
-    background-color: var(--color-accent-light);  /* same hover color */
-    color: var(--color-accent);                /* same hover text */
-    transform: translateY(-3px);                  /* same lift effect */
-    box-shadow: 0 8px 20px rgba(0, 255, 200, 0.25); /* optional glow if used */
+    background-color: transparent;
+    color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px var(--color-accent-shadow);
 }
