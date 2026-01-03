@@ -1,6 +1,9 @@
 /* --- 1. Global Reset & Variables --- */
 :root {
     /* DEFAULT MODE: DARK MODE */
+    /* This tells the browser your site natively supports both */
+    color-scheme: dark light; 
+    
     --bg-primary: #0A192F; /* Deep Background */
     --bg-secondary: #112240; /* Card/Section Background */
     --text-primary: #CCD6F6; /* Primary Text (Lightest Slate) */
@@ -18,21 +21,43 @@
     --font-sans: 'Inter', sans-serif;
     --font-mono: 'Roboto Mono', monospace;
     --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+    --border-color: rgba(100, 255, 218, 0.1); /* Subtle accent border for dark mode */
 }
 
 /* --- LIGHT MODE OVERRIDES --- */
 .light-mode {
-    --bg-primary: #F0F0F0; /* Light Background */
-    --bg-secondary: #FFFFFF; /* White Card/Section Background */
-    --text-primary: #1F2937; /* Dark Grey Text */
-    --text-secondary: #4B5563; /* Medium Grey Text */
-    --accent: #10B981; /* Green Accent (A bit softer for light mode) */
-    --shadow-color: rgba(17, 34, 64, 0.15); /* Lighter shadow */
+    /* Backgrounds: Creating a clear distinction between canvas and cards */
+    --bg-primary: #F8FAFC;    /* Very light Slate - feels "airy" not muddy */
+    --bg-secondary: #FFFFFF;  /* Pure white for cards to "pop" */
+    
+    /* Text: Deepened for high readability and "anchor" weight */
+    --text-primary: #0F172A;    /* Deep Navy-Slate instead of grey */
+    --text-secondary: #475569;  /* Balanced grey for subtext */
+    
+    /* Accent: Slightly more saturated to avoid looking faded */
+    --accent: #059669;          /* Emerald 600 - much punchier than 10B981 */
+    
+    /* Depth: Using a softer, multi-layered shadow for a modern feel */
+    --shadow-color: rgba(15, 23, 42, 0.08); 
+    --border-color: #0d0d0e;    /* Added this to define sections */
 
     /* Derived Overrides */
-    --color-accent-shadow: rgba(16, 185, 129, 0.15);
-    --scrollbar-track-color: #E5E7EB;
-    --scrollbar-thumb-color: #9CA3AF;
+    --color-accent-shadow: rgba(5, 150, 105, 0.1);
+    --scrollbar-track-color: #F1F5F9;
+    --scrollbar-thumb-color: #CBD5E1;
+}
+
+/* Sync the media query to match the improved palette */
+@media (prefers-color-scheme: light) {
+    :root:not(.dark-mode) {
+        --bg-primary: #F8FAFC;
+        --bg-secondary: #FFFFFF;
+        --text-primary: #0F172A;
+        --text-secondary: #475569;
+        --accent: #059669;
+        --shadow-color: rgba(15, 23, 42, 0.08);
+        --border-color: #E2E8F0;
+    }
 }
 
 * {
@@ -727,7 +752,7 @@ input:checked + .slider:before {
 
 /* --- 8. Projects Section --- */
 .projects-section {
-    background-color: var(--bg-secondary);
+    /*background-color: var(--bg-secondary);*/
     padding: 50px 20px;
 }
 
@@ -739,11 +764,16 @@ input:checked + .slider:before {
 }
 
 .project-card {
-    background-color: var(--bg-primary);
+    /*background-color: var(--bg-primary);*/
+    background: var(--bg-secondary);
+    border: 1px solid var(--bg-secondary);
     padding: 25px;
     border-radius: 8px;
-    box-shadow: 0 10px 30px -15px var(--shadow-color);
-    transition: var(--transition);
+    /*border: 1px solid var(--border-color);*/
+    /*box-shadow: 0 10px 30px -15px var(--shadow-color);*/
+    box-shadow: 0 4px 10px var(--shadow-color); 
+    /*transition: var(--transition);*/
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -852,7 +882,7 @@ input:checked + .slider:before {
 .contact-form textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid var(--bg-secondary);
+    border: 1px solid var(--border-color);
     background-color: var(--bg-primary);
     color: var(--text-primary);
     border-radius: 4px;

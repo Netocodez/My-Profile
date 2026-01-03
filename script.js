@@ -53,22 +53,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // --- 2. Mobile Menu Toggle & Close ---
+    // --- 2. Mobile Menu Toggle & Close ---
     const navLinks = document.querySelector('.nav-links');
     const menuToggle = document.querySelector('.menu-toggle');
 
     if (menuToggle) {
-        menuToggle.addEventListener('click', () => {
+        // Toggle Menu
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevents the document listener from immediately closing it
             navLinks.classList.toggle('active');
         });
 
-        // Close menu when a link is clicked (for single-page navigation)
+        // 1. Close menu when a link is clicked
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
-                // Use a short timeout to allow the smooth scroll to start before closing the menu
                 setTimeout(() => {
                     navLinks.classList.remove('active');
                 }, 300);
             });
+        });
+
+        // 2. NEW: Close menu when clicking anywhere outside
+        document.addEventListener('click', (event) => {
+            const isClickInsideMenu = navLinks.contains(event.target);
+            const isClickOnToggle = menuToggle.contains(event.target);
+
+            // If the menu is open AND the click was outside both the menu and toggle button
+            if (navLinks.classList.contains('active') && !isClickInsideMenu && !isClickOnToggle) {
+                navLinks.classList.remove('active');
+            }
         });
     }
 
