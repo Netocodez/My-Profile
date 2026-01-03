@@ -14,23 +14,28 @@
             
             <div class="nav-left">
                 <a href="#hero" class="logo">Onyeneto Chinedu<span class="logo-dot">.</span></a>
-                
-                <div class="mode-switch">
-                    <label class="switch">
-                        <input type="checkbox" id="mode-toggle"> 
-                        <span class="slider"></span>
-                    </label>
-                </div>
             </div>
 
-            <ul class="nav-links">
+            <ul class="nav-links" id="nav-menu">
                 <li><a href="#about"><i class="fas fa-user-circle"></i> About</a></li>
                 <li><a href="#skills"><i class="fas fa-code"></i> Skills</a></li>
                 <li><a href="#projects"><i class="fas fa-folder-open"></i> Projects</a></li>
+                
+                <li class="mode-switch-wrapper">
+                    <div class="mode-switch">
+                        <label class="switch">
+                            <input type="checkbox" id="mode-toggle"> 
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </li>
+
                 <li><a href="#contact" class="btn btn-primary">Let's Connect</a></li>
             </ul>
 
-            <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+            <div class="menu-toggle" id="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
             
         </nav>
     </header>

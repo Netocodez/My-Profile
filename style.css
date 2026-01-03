@@ -388,10 +388,10 @@ input:checked + .slider:before {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 0;
+    padding: 15px 0; /* Slightly tighter padding for better mobile fit */
 }
 
-/* NEW: Logo and Mode Switch Layout */
+/* Logo Section */
 .nav-left {
     display: flex;
     align-items: center;
@@ -402,16 +402,21 @@ input:checked + .slider:before {
     font-family: var(--font-mono);
     color: var(--accent);
     font-weight: 700;
+    text-decoration: none;
 }
 
 .logo-dot {
     color: var(--text-primary);
 }
 
+/* Navigation Links - Desktop Base */
 .nav-links {
     list-style: none;
     display: flex;
     align-items: center;
+    margin: 0;
+    padding: 0;
+    transition: var(--transition);
 }
 
 .nav-links li {
@@ -422,18 +427,16 @@ input:checked + .slider:before {
     color: var(--text-primary);
     font-family: var(--font-mono);
     font-size: 0.9rem;
+    text-decoration: none;
     padding: 8px 0;
+    position: relative;
 }
 
 .nav-links a:hover {
     color: var(--accent);
 }
 
-/* Navbar Link Smooth Hover Underline */
-.nav-links a {
-    position: relative;
-}
-
+/* Navbar Link Hover Underline */
 .nav-links a::after {
     content: "";
     position: absolute;
@@ -442,16 +445,72 @@ input:checked + .slider:before {
     width: 0%;
     height: 2px;
     background-color: var(--accent);
-    transition: width .3s ease;
+    transition: width 0.3s ease;
 }
 
 .nav-links a:hover::after {
     width: 100%;
 }
 
+/* Dark Mode Switch Styling */
+.mode-switch-wrapper {
+    display: flex;
+    align-items: center;
+    margin-left: 25px; /* Spacing for desktop view */
+}
+
+/* Menu Toggle (Hamburger) */
 .menu-toggle {
-    display: none;
+    display: none; /* Hidden on desktop */
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--text-primary);
     transition: transform 0.3s ease;
+}
+
+/* --- Mobile Styles (Responsive) --- */
+@media screen and (max-width: 768px) {
+    .menu-toggle {
+        display: block; /* Show hamburger icon */
+        z-index: 1001;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Fully off-screen */
+        width: 100%; /* Change to 70% or 80% for a side-drawer effect */
+        height: 100vh;
+        background-color: var(--bg-primary);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: 0.4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+        box-shadow: -5px 0 15px var(--shadow-color);
+    }
+
+    /* Active Class for Mobile (Applied via JS) */
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-links li {
+        margin: 20px 0; /* Vertical spacing in mobile menu */
+        margin-left: 0; /* Remove desktop margin-left */
+    }
+
+    .nav-links a {
+        font-size: 1.2rem; /* Larger text for mobile touch */
+    }
+
+    /* Move Mode Switch into the list flow */
+    .mode-switch-wrapper {
+        margin-left: 0;
+        padding-top: 15px;
+        border-top: 1px solid var(--bg-secondary);
+        width: 150px; /* Give it a defined width for centering */
+        justify-content: center;
+    }
 }
 
 /* --- 5. Hero Section --- */

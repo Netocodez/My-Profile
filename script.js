@@ -12,86 +12,98 @@ document.addEventListener('DOMContentLoaded', function() {
     let roleIndex = 0;
     let charIndex = 0;
     let isDeleting = false;
-    let typingTimer; // Use a timer variable for precise control
+    let typingTimer;
 
     function typeRole() {
         const currentRole = roles[roleIndex];
         const fullLength = currentRole.length;
-        let speed = 100; // Default typing speed
+        let speed = 100;
 
         if (!isDeleting) {
-            // Typing forward
             roleTextElement.textContent = currentRole.substring(0, charIndex + 1);
             charIndex++;
-
             if (charIndex === fullLength) {
-                // When full word typed, switch to deleting after a pause
-                speed = 1500; // Pause for 1.5 seconds
+                speed = 1500;
                 isDeleting = true;
             }
-
         } else {
-            // Deleting backward
             roleTextElement.textContent = currentRole.substring(0, charIndex - 1);
             charIndex--;
-            speed = 50; // Faster deleting speed
-
+            speed = 50;
             if (charIndex === 0) {
-                // When fully deleted, move to next role
                 isDeleting = false;
                 roleIndex = (roleIndex + 1) % roles.length;
-                speed = 200; // Short pause before typing next word
+                speed = 200;
             }
         }
-
-        // Clear the previous timer and set the new one with calculated speed
         typingTimer = setTimeout(typeRole, speed);
     }
 
-    // Start the typing animation
     typeRole();
 
 
-    // --- 2. Mobile Menu Toggle & Close ---
-    // --- 2. Mobile Menu Toggle & Close ---
+    // --- 2. Mobile Menu Toggle & Close Logic ---
     const navLinks = document.querySelector('.nav-links');
     const menuToggle = document.querySelector('.menu-toggle');
+    const menuIcon = menuToggle ? menuToggle.querySelector('i') : null;
 
     if (menuToggle) {
         // Toggle Menu
         menuToggle.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevents the document listener from immediately closing it
+            e.stopPropagation(); 
             navLinks.classList.toggle('active');
+            
+            // Toggle between hamburger and X icon
+            if (menuIcon) {
+                menuIcon.classList.toggle('fa-bars');
+                menuIcon.classList.toggle('fa-times');
+            }
         });
 
-        // 1. Close menu when a link is clicked
+        // Close menu when a navigation link is clicked
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 setTimeout(() => {
                     navLinks.classList.remove('active');
+                    if (menuIcon) {
+                        menuIcon.classList.add('fa-bars');
+                        menuIcon.classList.remove('fa-times');
+                    }
                 }, 300);
             });
         });
 
-        // 2. NEW: Close menu when clicking anywhere outside
+        // Prevent clicking the mode switch from closing the menu
+        const modeSwitchWrapper = document.querySelector('.mode-switch-wrapper');
+        if (modeSwitchWrapper) {
+            modeSwitchWrapper.addEventListener('click', (e) => {
+                e.stopPropagation(); // Stops the "click outside" logic from firing
+            });
+        }
+
+        // Close menu when clicking anywhere outside
         document.addEventListener('click', (event) => {
             const isClickInsideMenu = navLinks.contains(event.target);
             const isClickOnToggle = menuToggle.contains(event.target);
 
-            // If the menu is open AND the click was outside both the menu and toggle button
             if (navLinks.classList.contains('active') && !isClickInsideMenu && !isClickOnToggle) {
                 navLinks.classList.remove('active');
+                if (menuIcon) {
+                    menuIcon.classList.add('fa-bars');
+                    menuIcon.classList.remove('fa-times');
+                }
             }
         });
     }
 
-    // --- 3. Smooth Scrolling (Fallback for CSS scroll-behavior) ---
+    // --- 3. Smooth Scrolling ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
         });
     });
 
@@ -100,28 +112,27 @@ document.addEventListener('DOMContentLoaded', function() {
     const body = document.body;
 
     // Check for stored preference
-    const currentMode = localStorage.getItem('theme');
-    if (currentMode === 'light') {
+    const storedTheme = localStorage.getItem('theme');
+    
+    // Apply theme on load
+    if (storedTheme === 'light') {
         body.classList.add('light-mode');
-        modeToggle.checked = true;
+        if (modeToggle) modeToggle.checked = true;
     } else {
-        // Ensure 'theme' is set to 'dark' if no preference or if it was manually removed
-        localStorage.setItem('theme', 'dark');
         body.classList.remove('light-mode');
-        modeToggle.checked = false;
+        if (modeToggle) modeToggle.checked = false;
     }
 
     // Event listener for the switch
-    modeToggle.addEventListener('change', () => {
-        if (modeToggle.checked) {
-            body.classList.add('light-mode');
-            localStorage.setItem('theme', 'light');
-        } else {
-            body.classList.remove('light-mode');
-            localStorage.setItem('theme', 'dark');
-        }
-    });
-    
-    // NOTE: The redundant mobile menu logic in your original section 4 has been removed.
-
+    if (modeToggle) {
+        modeToggle.addEventListener('change', () => {
+            if (modeToggle.checked) {
+                body.classList.add('light-mode');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.remove('light-mode');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    }
 });
